@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
-const uri = `mongodb+srv://mennameligy567:mennameliGY@cluster0.v0o3igp.mongodb.net/?retryWrites=true&w=majority
-`;
-const db = async () => {
+
+const connectDB = async (url) => {
   await mongoose
-    .connect(uri, {
+    .connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -14,4 +13,4 @@ const db = async () => {
       console.error("Error connecting to MongoDB:", error);
     });
 };
-module.exports = { db };
+module.exports = { connectDB };
