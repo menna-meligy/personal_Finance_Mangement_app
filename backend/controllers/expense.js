@@ -1,6 +1,6 @@
-const Income = require("../models/incomeModel");
+const expenseSchema = require("../models/incomeModel");
 
-exports.addIncome = async (req, res) => {
+exports.addExpense = async (req, res) => {
   const { title, amount, category, deescription, data } = req.body;
 
   const income = Income({
@@ -23,41 +23,41 @@ exports.addIncome = async (req, res) => {
     }
 
     await income.save();
-    res.status(200).json({ message: " Income added successfully" });
+    res.status(200).json({ message: " Expense added successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error saving income" });
+    res.status(500).json({ message: "Error saving Expense" });
   }
 };
 
 // Create a new income
-exports.createIncome = async (req, res) => {
+exports.createExpense = async (req, res) => {
   try {
-    const income = new Income(req.body);
+    const income = new expenseSchema(req.body);
     await income.save();
-    res.status(201).json({ msg: "income created ", dataCreated: income });
+    res.status(201).json({ msg: "Expense created ", dataCreated: income });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
 // Get all incomes
-exports.getAllIncomes = async (req, res) => {
+exports.getAllExpenses = async (req, res) => {
   try {
-    const incomes = await Income.find();
-    res.status(200).json({ msg: "all incomes", data: incomes });
+    const incomes = await expenseSchema.find();
+    res.status(200).json({ msg: "all Expenses", data: incomes });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 // Get a single income by id
-exports.getIncomeById = async (req, res) => {
+exports.getExpenseById = async (req, res) => {
   try {
-    const income = await Income.findById(req.params.id);
+    const income = await expenseSchema.findById(req.params.id);
     if (!income) {
       return res
         .status(404)
-        .json({ msg: "income not found with id " + req.params.id });
+        .json({ msg: "Expense not found with id " + req.params.id });
     }
     res.status(200).json(income);
   } catch (error) {
@@ -66,7 +66,7 @@ exports.getIncomeById = async (req, res) => {
 };
 
 // Update an income by id
-exports.updateIncome = async (req, res) => {
+exports.updateExpense = async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = [
     "title",
@@ -83,14 +83,18 @@ exports.updateIncome = async (req, res) => {
     return res.status(400).json({ error: "Invalid updates!" });
   }
   try {
-    const income = await Income.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const income = await expenseSchema.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     if (!income) {
       return res
         .status(404)
-        .json({ msg: "there is no income with id " + req.params });
+        .json({ msg: "there is no Expense with id " + req.params });
     }
     res.status(200).json({ msg: "updated successfully", dataUpdated: income });
   } catch (error) {
@@ -99,13 +103,13 @@ exports.updateIncome = async (req, res) => {
 };
 
 // Delete an income by id
-exports.deleteIncome = async (req, res) => {
+exports.deleteExpense = async (req, res) => {
   try {
-    const income = await Income.findByIdAndDelete(req.params.id);
+    const income = await expenseSchema.findByIdAndDelete(req.params.id);
     if (!income) {
       return res
         .status(404)
-        .json({ msg: "Invalid income with id " + req.params.id });
+        .json({ msg: "Invalid Expense with id " + req.params.id });
     }
     res.status(200).json({ msg: "delted", dataDeleted: income });
   } catch (error) {
