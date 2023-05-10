@@ -16,31 +16,26 @@ const ExpenseSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      default: "income",
+      default: "expense",
     },
     date: {
       type: Date,
       required: true,
       trim: true,
     },
-    Category: {
+    category: {
       type: String,
       required: true,
       trim: true,
     },
     description: {
       type: String,
-      required: [true, "please enter a description"],
+      required: true,
       maxLength: 20,
       trim: true,
-    },
-    cratedAt: {
-      type: Date,
-      default: Date.now(),
     },
   },
   { timestamps: true }
 );
-const model = mongoose.model("expense", ExpenseSchema);
 
-module.exports = model;
+module.exports = mongoose.model("Expense", ExpenseSchema);

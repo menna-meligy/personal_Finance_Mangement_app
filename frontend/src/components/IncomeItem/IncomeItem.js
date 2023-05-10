@@ -256,6 +256,7 @@ const IncomeItemStyled = styled.div`
   gap: 1rem;
   width: 100%;
   color: #222260;
+
   .icon {
     width: 80px;
     height: 80px;

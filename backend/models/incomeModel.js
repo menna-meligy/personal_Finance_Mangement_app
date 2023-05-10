@@ -23,7 +23,7 @@ const IncomeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    Category: {
+    category: {
       type: String,
       required: true,
       trim: true,
@@ -37,4 +37,5 @@ const IncomeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 module.exports = mongoose.model("Income", IncomeSchema);

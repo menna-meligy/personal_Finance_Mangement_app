@@ -1,76 +1,53 @@
-const Income = require("../models/incomeModel");
+const IncomeSchema = require("../models/IncomeModel");
 
-// Create a new income
-const createIncome = async (req, res) => {
+exports.addIncome = async (req, res) => {
+  const { title, amount, category, description, date } = req.body;
+  console.log("req", req.body);
+
+  const income = new IncomeSchema({
+    title,
+    amount,
+    category,
+    description,
+    date,
+  });
+  console.log("income", income);
+
   try {
-    const income = new Income(req.body);
+    //validations
+    if (!title || !category || !description || !date) {
+      return res.status(400).json({ message: "All fields are required!" });
+    }
+    if (amount <= 0 || !amount === "number") {
+      return res
+        .status(400)
+        .json({ message: "Amount must be a positive number!" });
+    }
     await income.save();
-    res.status(201).json(income);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(200).json({ message: "Income Added" });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
   }
+
+  console.log(income);
 };
 
-// Get all incomes
-const getIncomes = async (req, res) => {
+exports.getIncomes = async (req, res) => {
   try {
-    const incomes = await Income.find();
+    const incomes = await IncomeSchema.find().sort({ createdAt: -1 });
     res.status(200).json(incomes);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
-// Get a single income by ID
-const getIncomeById = async (req, res) => {
-  try {
-    const income = await Income.findById(req.params.id);
-    if (!income) {
-      return res.status(404).json({ message: "Income not found" });
-    }
-    res.status(200).json(income);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-// Update a single income by ID
-const updateIncomeById = async (req, res) => {
-  try {
-    const income = await Income.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+exports.deleteIncome = async (req, res) => {
+  const { id } = req.params;
+  IncomeSchema.findByIdAndDelete(id)
+    .then((income) => {
+      res.status(200).json({ message: "Income Deleted" });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Server Error" });
     });
-    if (!income) {
-      return res.status(404).json({ message: "Income not found" });
-    }
-    res.status(200).json(income);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-// Delete a single income by ID
-const deleteIncomeById = async (req, res) => {
-  try {
-    const income = await Income.findByIdAndDelete(req.params.id);
-    if (!income) {
-      return res.status(404).json({ message: "Income not found" });
-    }
-    res.status(200).json({ message: "Income deleted successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-module.exports = {
-  createIncome,
-  getIncomes,
-  getIncomeById,
-  updateIncomeById,
-  deleteIncomeById,
 };

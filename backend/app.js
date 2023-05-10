@@ -4,14 +4,17 @@ const { connectDB } = require("./db/connect");
 const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT || 3000;
-const incomeRouter = require("./routes/incomeRoute");
+const transctionsRouter = require("./routes/transactions");
 const notFoundMiddleware = require("./middleware/not-found"); // require = import
 const errorHandlerMiddlerware = require("./middleware/error-handler");
 
 //middlewares
 //order matters
 app.use(express.json()); //parsing the retrived data to JSON
-
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.use(
   cors({
     //cors : security purpose : so can receive any request from any site
@@ -21,10 +24,10 @@ app.use(
 //routes
 //end-point
 
-app.use("/api/v1/incomes", incomeRouter);
+app.use("/api/v1", transctionsRouter);
 
 //not found handler & error handler
-app.use(notFoundMiddleware);
+// app.use(notFoundMiddleware);
 app.use(errorHandlerMiddlerware); // 4 parameters
 
 //app.use overloading parameters
