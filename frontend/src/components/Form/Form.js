@@ -8,6 +8,8 @@ import { plus } from "../../utils/icons";
 import Button from "../Button/Button";
 
 function Form() {
+  // const { addIncome } = useGlobalContext();
+  const { addIncome, getIncomes } = useGlobalContext();
   const [inputState, setInputState] = useState({
     title: "",
     amount: " ",
@@ -24,11 +26,11 @@ function Form() {
     setInputState({ ...inputState, [name]: e.target.value });
   };
   //get the AddIncome from the context
-  const { addIncome } = useGlobalContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     addIncome(inputState);
+    getIncomes();
     setInputState({
       title: "",
       amount: "",
@@ -53,7 +55,7 @@ function Form() {
           type="amount"
           value={amount}
           name={amount}
-          placeholder="salary amount"
+          placeholderText="salary amount"
           onChange={handleInput("amount")}
         />
       </div>

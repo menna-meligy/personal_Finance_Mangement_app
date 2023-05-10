@@ -2,16 +2,16 @@ const express = require("express");
 const router = express.Router();
 const {
   createIncome,
-  updateIncome,
-  getAllIncomes,
+  getIncomes,
   getIncomeById,
-  deleteIncome,
+  updateIncomeById,
+  deleteIncomeById,
 } = require("./../controllers/income");
-router.route("/").get(getAllIncomes).post(createIncome);
+router.route("/").get(getIncomes).post(createIncome);
 router
   .route("/:id")
-  .patch(updateIncome)
-  .delete(deleteIncome)
+  .patch(updateIncomeById)
+  .delete(deleteIncomeById)
   .get(getIncomeById);
 
 module.exports = router;
