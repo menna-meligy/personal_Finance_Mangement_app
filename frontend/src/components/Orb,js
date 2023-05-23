@@ -1,0 +1,12 @@
+import React from "react";
+import { useWindowSize } from "../utils/useWindowSize";
+import "./styles/Layouts.css";
+
+function Orb() {
+  const { width, height } = useWindowSize();
+
+  console.log(width, height);
+  return <div className="orb"></div>;
+}
+
+export default Orb;
