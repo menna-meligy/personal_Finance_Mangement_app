@@ -9,14 +9,24 @@ import { plus } from "../../utils/icons";
 function ExpenseForm() {
   const { addExpense, error, setError } = useGlobalContext();
   const [inputState, setInputState] = useState({
-    title: "",
-    amount: "",
+    market_Name: "",
+    item_id: "",
+    amount: " ",
+    item_name: " ",
     date: "",
     category: "",
     description: "",
   });
 
-  const { title, amount, date, category, description } = inputState;
+  const {
+    market_Name,
+    item_id,
+    amount,
+    item_name,
+    date,
+    category,
+    description,
+  } = inputState;
 
   const handleInput = (name) => (e) => {
     setInputState({ ...inputState, [name]: e.target.value });
@@ -27,8 +37,10 @@ function ExpenseForm() {
     e.preventDefault();
     addExpense(inputState);
     setInputState({
-      title: "",
+      market_Name: "",
+      item_id: "",
       amount: "",
+      item_name: "",
       date: "",
       category: "",
       description: "",
@@ -41,10 +53,19 @@ function ExpenseForm() {
       <div className="input-control">
         <input
           type="text"
-          value={title}
-          name={"title"}
-          placeholder="Expense Title"
-          onChange={handleInput("title")}
+          value={market_Name}
+          name={"market_Name"}
+          placeholder="Market Name"
+          onChange={handleInput("market_Name")}
+        />
+      </div>
+      <div className="input-control">
+        <input
+          value={item_id}
+          type="text"
+          name={"item_id"}
+          placeholder={"Item Id"}
+          onChange={handleInput("item_id")}
         />
       </div>
       <div className="input-control">
@@ -52,8 +73,17 @@ function ExpenseForm() {
           value={amount}
           type="text"
           name={"amount"}
-          placeholder={"Expense Amount"}
+          placeholderText={"Item Price"}
           onChange={handleInput("amount")}
+        />
+      </div>
+      <div className="input-control">
+        <input
+          value={item_name}
+          type="text"
+          name={"item_name"}
+          placeholderText={"Item Name"}
+          onChange={handleInput("item_name")}
         />
       </div>
       <div className="input-control">
@@ -79,6 +109,7 @@ function ExpenseForm() {
             Select Option
           </option>
           <option value="education">Education</option>
+          <option value="food">Food</option>
           <option value="groceries">Groceries</option>
           <option value="health">Health</option>
           <option value="subscriptions">Subscriptions</option>

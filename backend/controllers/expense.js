@@ -1,22 +1,40 @@
 const ExpenseSchema = require("../models/ExpenseModel");
 
 exports.addExpense = async (req, res) => {
-  const { title, amount, category, description, date } = req.body;
+  const {
+    market_Name,
+    item_id,
+    amount,
+    item_name,
+    category,
+    description,
+    date,
+  } = req.body;
 
   const income = ExpenseSchema({
-    title,
-    amount,
+    market_Name,
+    item_id,
     category,
+    amount,
+    item_name,
     description,
     date,
   });
 
   try {
     //validations
-    if (!title || !category || !description || !date) {
+    if (
+      !market_Name ||
+      !item_id ||
+      !amount ||
+      !item_name ||
+      !category ||
+      !description ||
+      !date
+    ) {
       return res.status(400).json({ message: "All fields are required!" });
     }
-    if (amount <= 0 || !amount === "number") {
+    if (item_id <= 0) {
       return res
         .status(400)
         .json({ message: "Amount must be a positive number!" });

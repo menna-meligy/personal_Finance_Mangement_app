@@ -8,6 +8,12 @@ const transctionsRouter = require("./routes/transactions");
 const notFoundMiddleware = require("./middleware/not-found"); // require = import
 const errorHandlerMiddlerware = require("./middleware/error-handler");
 
+const zaraAPI = require("./routes/zaraRoute");
+const burshkaAPI = require("./routes/burshkaRoute");
+const springFieldAPI = require("./routes/springFieldRoute");
+const reservedAPI = require("./routes/burshkaRoute");
+const H_MAPI = require("./routes/H&MRoute");
+
 //middlewares
 //order matters
 app.use(express.json()); //parsing the retrived data to JSON
@@ -35,6 +41,12 @@ app.use(errorHandlerMiddlerware); // 4 parameters
 //2- (string, middleware) => path , routeHandler
 //3- (array of strings , routeHandler)
 
+app.use("/api/v1/zara", zaraAPI);
+
+app.use("/api/v1/burshka", springFieldAPI);
+app.use("/api/v1/springField", burshkaAPI);
+app.use("/api/v1/reserved", reservedAPI);
+app.use("/api/v1/H&M", H_MAPI);
 const server = async () => {
   try {
     await connectDB(

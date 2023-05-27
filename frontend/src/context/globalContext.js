@@ -1,172 +1,3 @@
-// // // import React, { useContext, useState } from "react";
-// // // import axios from "axios";
-
-// // // const BASE_URL = "http://localhost:3000/api/v1/incomes";
-// // // const GlobalContext = React.createContext();
-
-// // // export const GlobalDataProvider = ({ children }) => {
-// // //   const [incomes, setIncomes] = useState([]);
-// // //   const [expenses, setExpenses] = useState([]);
-// // //   const [error, setError] = useState(null);
-// // //   //send the items to the database
-// // //   const addIncome = async (income) => {
-// // //     // const response = await axios.post(`${BASE_URL}add-income`,income);
-// // //     const response = await axios
-// // //       .post(`${BASE_URL}/add-income`, income)
-// // //       .catch((err) => {
-// // //         setError(err.response.data.message);
-// // //       });
-// // //     console.log("eeeeeeeeeee", response);
-// // //   };
-
-// // //   return (
-// // //     <GlobalContext.Provider value={{ addIncome }}>
-// // //       {children}
-// // //     </GlobalContext.Provider>
-// // //   );
-// // // };
-// // // //to have access to these context to send them there to the database and show them in the UI
-// // // export const useGlobalContext = () => {
-// // //   return useContext(GlobalContext);
-// // // };
-// // // // import React, { useContext, useState } from "react";
-// // // // import axios from "axios";
-
-// // // // const BASE_URL = "http://localhost:3000/api/v1/incomes";
-// // // // const GlobalContext = React.createContext();
-
-// // // // export const GlobalDataProvider = ({ children }) => {
-// // // //   const [incomes, setIncomes] = useState([]);
-// // // //   const [expenses, setExpenses] = useState([]);
-// // // //   const [error, setError] = useState(null);
-
-// // // //   const addIncome = async (income) => {
-// // // //     try {
-// // // //       const response = await axios.post(`${BASE_URL}add-income`, income);
-// // // //       console.log("Response:", response);
-// // // //     } catch (error) {
-// // // //       console.log("Error:", error);
-// // // //       setError(error.message);
-// // // //     }
-// // // //   };
-
-// // // //   return (
-// // // //     <GlobalContext.Provider value={{ addIncome }}>
-// // // //       {children}
-// // // //     </GlobalContext.Provider>
-// // // //   );
-// // // // };
-
-// // // // export const useGlobalContext = () => {
-// // // //   return useContext(GlobalContext);
-// // // // };
-
-// import React, { useContext, useState } from "react";
-// import axios from "axios";
-
-// const BASE_URL = "http://localhost:3000/api/v1/";
-// const GlobalContext = React.createContext();
-
-// export const GlobalProvider = ({ children }) => {
-//   const [incomes, setIncomes] = useState([]);
-//   const [expenses, setExpenses] = useState([]);
-//   const [error, setError] = useState(null);
-//   //send the items to the database
-//   const addIncome = async (income) => {
-//     const { title, amount, date, category, description, type } = income;
-//     const newIncome = { title, amount, date, category, description, type };
-//     try {
-//       const response = await axios.post(`${BASE_URL}add-income`, newIncome);
-//       console.log("Response:", response);
-//     } catch (error) {
-//       console.log("Error:", error.message);
-//       setError(error.message);
-//     }
-
-//     getIncomes();
-//   };
-
-//   //   const getIncomes = async (income) => {
-//   //     const response = await axios.get(`${BASE_URL}get-incomes`);
-//   //     setIncomes(response.data);
-//   //     console.log(response.data);
-//   //   };
-//   const getIncomes = async () => {
-//     const response = await axios.get(`${BASE_URL}get-incomes`);
-//     setIncomes(response.data);
-//     // console.log(response.data);
-//   };
-
-//   const deleteIncome = async (id) => {
-//     const response = await axios.delete(`${BASE_URL}/${id}`);
-//     getIncomes();
-//   };
-
-//   const totalIncome = () => {
-//     let totalIncome = 0;
-//     incomes.forEach((income) => {
-//       totalIncome += income.amount;
-//     });
-//     return totalIncome;
-//   };
-
-//   const totalExpenses = () => {
-//     let totalExpenses = 0;
-//     incomes.forEach((expense) => {
-//       totalExpenses += expense.amount;
-//     });
-//     return totalExpenses;
-//   };
-
-//   //console.log(totalIncome());
-//   const addExpense = async (income) => {
-//     const response = await axios
-//       .post(`${BASE_URL}add-expense`, income)
-//       .catch((err) => {
-//         setError(err.response.data.message);
-//       });
-//     getExpenses();
-//   };
-
-//   const getExpenses = async () => {
-//     const response = await axios.get(`${BASE_URL}`);
-//     setExpenses(response.data);
-//     console.log(response.data);
-//   };
-
-//   const deleteExpense = async (id) => {
-//     const res = await axios.delete(`${BASE_URL}/${id}`);
-//     getExpenses();
-//   };
-
-//   const totalBalance = () => {
-//     return totalIncome() - totalExpenses();
-//   };
-
-//   return (
-//     <GlobalContext.Provider
-//       value={{
-//         addIncome,
-//         getIncomes,
-//         incomes,
-//         deleteIncome,
-//         totalIncome,
-//         totalExpenses,
-//         getExpenses,
-//         deleteExpense,
-//         addExpense,
-//         totalBalance,
-//         error,
-//       }}
-//     >
-//       {children}
-//     </GlobalContext.Provider>
-//   );
-// };
-// //to have access to these context to send them there to the database and show them in the UI
-// export const useGlobalContext = () => {
-//   return useContext(GlobalContext);
-// };
 import React, { useContext, useState } from "react";
 import axios from "axios";
 
@@ -261,6 +92,27 @@ export const GlobalProvider = ({ children }) => {
     return history.slice(0, 3);
   };
 
+  //////////////////stores api functions ////////////////////
+  //Get all Zara items
+  // Function to get the price of an item by ID for Zara
+  const getZaraItemPrice = async (itemId) => {
+    try {
+      const response = await axios.get(`${BASE_URL}zara/items/${itemId}`);
+      const item = response.data;
+      return item.price;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  // Usage examples
+  const itemId = 1;
+
+  // Call the functions when needed
+  getZaraItemPrice(itemId).then((price) => {
+    console.log(`Zara Item Price: ${price}`);
+  });
   return (
     <GlobalContext.Provider
       value={{

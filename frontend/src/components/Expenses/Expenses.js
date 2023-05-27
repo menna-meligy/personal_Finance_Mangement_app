@@ -47,8 +47,10 @@ function Expenses() {
               expenses.map((income) => {
                 const {
                   _id,
-                  title,
+                  market_Name,
+                  item_id,
                   amount,
+                  item_name,
                   date,
                   category,
                   description,
@@ -59,9 +61,11 @@ function Expenses() {
                   <IncomeItem
                     key={_id}
                     id={_id}
-                    title={title}
+                    title={market_Name}
                     description={description}
                     amount={amount}
+                    item_id={item_id}
+                    item_name={item_name}
                     date={date}
                     type={type}
                     category={category}

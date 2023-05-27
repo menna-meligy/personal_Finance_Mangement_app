@@ -24,4 +24,10 @@ export const menuItems = [
     icon: expenses,
     link: "/dashboard",
   },
+  {
+    id: 5,
+    title: "Product Details",
+    icon: dashboard,
+    link: "/ProductDetails",
+  },
 ];

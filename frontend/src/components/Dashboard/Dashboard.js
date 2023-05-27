@@ -1,19 +1,3 @@
-// import React from "react";
-// import { styled } from "styled-components";
-// import { InnerLayout } from "../../styles/Layouts";
-
-// function Dashboard() {
-//   return (
-//     <DashboardStyled>
-//       <InnerLayout>All Transactions
-
-//       </InnerLayout>
-//     </DashboardStyled>
-//   );
-// }
-// const DashboardStyled = styled.div``;
-// export default Dashboard;
-//rfce : react function component element
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useGlobalContext } from "../../context/globalContext";
