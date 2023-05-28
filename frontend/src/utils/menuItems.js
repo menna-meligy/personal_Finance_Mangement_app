@@ -30,4 +30,10 @@ export const menuItems = [
     icon: dashboard,
     link: "/ProductDetails",
   },
+  {
+    id: 6,
+    title: "Suggestions",
+    icon: dashboard,
+    link: "/Suggestions",
+  },
 ];
