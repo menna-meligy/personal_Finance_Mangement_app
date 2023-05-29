@@ -26,13 +26,19 @@ export const menuItems = [
   },
   {
     id: 5,
-    title: "Product Details",
+    title: "Bank Account",
     icon: dashboard,
     link: "/ProductDetails",
   },
   {
     id: 6,
-    title: "Suggestions",
+    title: "Shopping",
+    icon: dashboard,
+    link: "/Suggestions",
+  },
+  {
+    id: 7,
+    title: "My savings",
     icon: dashboard,
     link: "/Suggestions",
   },

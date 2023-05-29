@@ -12,15 +12,6 @@ export const GlobalProvider = ({ children }) => {
 
   //calculate incomes
   const addIncome = async (income) => {
-    const newIcome = {
-      title: "Salary 9",
-      amount: 5000,
-      type: "income 4",
-      date: "2022-05-02T00:00:00.000Z",
-      category: "Job",
-      description: "Monthly salary",
-    };
-
     const response = await axios
       .post(`${BASE_URL}add-income`, income)
       .catch((err) => {
@@ -93,26 +84,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   //////////////////stores api functions ////////////////////
-  //Get all Zara items
-  // Function to get the price of an item by ID for Zara
-  const getZaraItemPrice = async (itemId) => {
-    try {
-      const response = await axios.get(`${BASE_URL}zara/items/${itemId}`);
-      const item = response.data;
-      return item.price;
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
 
-  // Usage examples
-  const itemId = 1;
-
-  // Call the functions when needed
-  getZaraItemPrice(itemId).then((price) => {
-    console.log(`Zara Item Price: ${price}`);
-  });
   return (
     <GlobalContext.Provider
       value={{

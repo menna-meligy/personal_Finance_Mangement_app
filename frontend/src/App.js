@@ -9,7 +9,8 @@ import Expenses from "./components/Expenses/Expenses";
 import Incomes from "./components/Incomes/Incomes";
 import { useGlobalContext } from "./context/globalContext";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
-import Suggestions from "./components/Suggestions/Suggestions";
+import Suggestions from "./components/MyImages/Suggestions";
+import Mysavings from "./components/MySavings/Mysavings";
 
 function App() {
   const [active, setActive] = useState(1);
@@ -34,12 +35,9 @@ function App() {
       case 5:
         return <ProductDetails />;
       case 6:
-        return (
-          <iframe
-            src="../../sis-master/templates/index.html"
-            title="Search Engine"
-          />
-        );
+        return <Suggestions />;
+      case 8:
+        return <Mysavings />;
       default:
         return <Dashboard />;
     }
