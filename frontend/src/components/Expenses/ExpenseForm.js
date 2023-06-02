@@ -11,8 +11,8 @@ function ExpenseForm() {
   const [inputState, setInputState] = useState({
     market_Name: "",
     item_id: "",
-    amount: " ",
-    item_name: " ",
+    amount: "",
+    item_name: "",
     date: "",
     category: "",
     description: "",
@@ -73,7 +73,7 @@ function ExpenseForm() {
           value={amount}
           type="text"
           name={"amount"}
-          placeholderText={"Item Price"}
+          placeholder="item price"
           onChange={handleInput("amount")}
         />
       </div>
@@ -82,7 +82,7 @@ function ExpenseForm() {
           value={item_name}
           type="text"
           name={"item_name"}
-          placeholderText={"Item Name"}
+          placeholder="item name"
           onChange={handleInput("item_name")}
         />
       </div>

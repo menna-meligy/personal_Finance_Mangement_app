@@ -9,9 +9,8 @@ import Expenses from "./components/Expenses/Expenses";
 import Incomes from "./components/Incomes/Incomes";
 import { useGlobalContext } from "./context/globalContext";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
-import Suggestions from "./components/MyImages/Suggestions";
-import Mysavings from "./components/MySavings/Mysavings";
-
+import Suggestions from "./components/Suggestions/Suggestions";
+import ViewTransactions from "./components/ViewTransactions/ViewTransactions";
 function App() {
   const [active, setActive] = useState(1);
 
@@ -27,7 +26,7 @@ function App() {
       case 1:
         return <Dashboard />;
       case 2:
-        return <Dashboard />;
+        return <ViewTransactions />;
       case 3:
         return <Incomes />;
       case 4:
@@ -36,8 +35,6 @@ function App() {
         return <ProductDetails />;
       case 6:
         return <Suggestions />;
-      case 8:
-        return <Mysavings />;
       default:
         return <Dashboard />;
     }

@@ -36,10 +36,4 @@ export const menuItems = [
     icon: dashboard,
     link: "/Suggestions",
   },
-  {
-    id: 7,
-    title: "My savings",
-    icon: dashboard,
-    link: "/Suggestions",
-  },
 ];
