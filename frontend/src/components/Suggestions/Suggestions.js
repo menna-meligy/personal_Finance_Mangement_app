@@ -35,26 +35,48 @@ function Suggestions() {
   const [queryImage, setQueryImage] = useState(null);
   const [queryPath, setQueryPath] = useState(null);
   const [scores, setScores] = useState([]);
-  const [count, setCount] = useState(0);
-
   const [imageDatails, setImageDatails] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // const [selectedItemDetails1, setSelectedItemDetails1] = useState({
+  //   storeName: "",
+  //   price: "",
+  //   category: "",
+  //   description: "",
+  // });
+  // const [selectedItemDetails2, setSelectedItemDetails2] = useState({
+  //   storeName: "",
+  //   price: "",
+  //   category: "",
+  //   description: "",
+  // });
   const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedItemDetails1, setSelectedItemDetails1] = useState({
+  const [selectedItemDetails, setSelectedItemDetails] = useState({
     storeName: "",
     price: "",
     category: "",
     description: "",
   });
-  const [selectedItemDetails2, setSelectedItemDetails2] = useState({
-    storeName: "",
-    price: "",
-    category: "",
-    description: "",
-  });
+
+  // const handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   setQueryImage(file);
+  //   setQueryPath(URL.createObjectURL(file));
+  // };
   const handleImageUpload = (event) => {
+    // Get the uploaded file
     const file = event.target.files[0];
+
+    // Display the uploaded image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setQueryPath(reader.result);
+    };
+    reader.readAsDataURL(file);
     setQueryImage(file);
     setQueryPath(URL.createObjectURL(file));
+    // Set the selected image as the uploaded image
+    setSelectedImage(file);
   };
 
   const extractImageName = (path) => {
@@ -77,14 +99,21 @@ function Suggestions() {
   };
   let image;
   const handleShowDetails = async (id) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/items/${id}`
-      );
-      const details = response.data;
-      setSelectedItemDetails1(details);
-    } catch (error) {
-      console.error("Error:", error);
+    if (selectedItem === id) {
+      // If the selected item is already shown, toggle it off
+      setSelectedItem(null);
+      setSelectedItemDetails({});
+    } else {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/items/${id}`
+        );
+        const details = response.data;
+        setSelectedItemDetails(details);
+        setSelectedItem(id);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
@@ -98,7 +127,7 @@ function Suggestions() {
     try {
       // Send a POST request to the Flask server
       const response = await axios.post(
-        "http://192.168.51.90:5000//api/search",
+        "http://192.168.51.125:5000//api/search",
 
         formData,
         {
@@ -119,33 +148,47 @@ function Suggestions() {
   };
 
   const Container = styled.div`
-    margin-top: 20px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
+  `;
+
+  const UploadedImage = styled.img`
+    border: 2px solid darkblue;
+    margin-bottom: 20px;
   `;
 
   const BlueButton = styled.button`
     background-color: grey;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px;
     margin-top: 10px;
     cursor: pointer;
+    border-radius: 10px;
     transition: background-color 0.3s;
-
     &:hover {
       background-color: #999999;
     }
   `;
 
+  const DetailsBox = styled.div`
+    background-color: transparent;
+    color: darkergrey;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: left;
+    border: 1px solid darkgrey;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 17px;
+  `;
   const ResultFigure = styled.figure`
     display: inline-block;
     text-align: center;
     margin-right: 20px;
     margin-bottom: 20px;
+  `;
+  const ShowDetailsButton = styled(BlueButton)`
+    margin-bottom: 0;
   `;
 
   const Form = styled.form`
@@ -202,13 +245,14 @@ function Suggestions() {
   const ResultsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: 100px;
+    justify-content: center;
   `;
 
   const ResultItem = styled.div`
     margin-bottom: 20px;
     text-align: center;
   `;
+
   const getImageVariable = (imagePath) => {
     if (imagePath === "../MyImages/0d554105596e6a478e05646c7740765d.jpg") {
       return "image1";
@@ -257,9 +301,13 @@ function Suggestions() {
 
     return null; // Return null if no match found
   };
+
   return (
     <Container>
-      <img src="../MyImages/0d554105596e6a478e05646c7740765d.jpg" alt="" />
+      <UploadedImage
+        src="../MyImages/0d554105596e6a478e05646c7740765d.jpg"
+        alt=""
+      />
       <h1> Product Image Search Engine</h1>
       <Form onSubmit={handleSubmit}>
         <FileInputWrapper>
@@ -274,8 +322,15 @@ function Suggestions() {
         <SubmitButton type="submit" value="Submit" />
       </Form>
       {/* <h2>Query:</h2> */}
-      {queryPath && <img src={queryPath} width="300px" alt="Query" />}
-      <h2>Results:</h2>
+      {queryPath && (
+        <img
+          src={queryPath}
+          width="300px"
+          alt="Query"
+          style={selectedImage ? { border: "2px solid red" } : {}}
+        />
+      )}{" "}
+      <h2 style={{ marginTop: "7px", marginBottom: "6px" }}>Results</h2>
       <ResultsContainer>
         {scores.slice(1, 4).map((score, index) => {
           const imagePath = getImagePath(extractImageName(score[1]));
@@ -357,42 +412,33 @@ function Suggestions() {
                 marginBottom: "20px",
               }}
             >
-              <img src={image} height="200px" alt={`Result ${index + 1}`} />
-              {/* <figcaption>{score[0]}</figcaption> */}
-              <BlueButton
-                onClick={() => {
-                  // let id = 12; //put ur code here
-                  let id = trimImageName(imageVariable);
-
-                  showDetailsOfImage(id);
-                }}
-              >
-                Show Details
-              </BlueButton>
-              <div>{imageDatails.storeName}</div>
-              <div>{imageDatails.price}</div>
-              <div>{imageDatails.category}</div>
-              <div>{imageDatails.desciption}</div>
-              {/* <BlueButton
-                onClick={() => {
-                  let id = trimImageName(imageVariable);
-                  setSelectedItem(selectedItem === id ? null : id);
-                  handleShowDetails(id); // Use the renamed constant here
-                }}
+              <img src={image} height="240px" alt={`Result ${index + 1}`} />
+              {/* Rest of the code... */}
+              <ShowDetailsButton
+                onClick={() => handleShowDetails(trimImageName(imageVariable))}
               >
                 {selectedItem === trimImageName(imageVariable)
                   ? "Less"
                   : "Show Details"}
-              </BlueButton>
+              </ShowDetailsButton>
 
               {selectedItem === trimImageName(imageVariable) && (
-                <div>
-                  <div>{selectedItemDetails.storeName}</div>
-                  <div>{selectedItemDetails.price}</div>
-                  <div>{selectedItemDetails.category}</div>
-                  <div>{selectedItemDetails.description}</div>
-                </div>
-              )} */}
+                <DetailsBox>
+                  <div>Store Name : {selectedItemDetails.storeName}</div>
+                  <div>
+                    Price
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                    {selectedItemDetails.price}
+                  </div>
+                  <div>
+                    Category&nbsp;&nbsp;&nbsp;&nbsp; :
+                    {selectedItemDetails.category}
+                  </div>
+                  <div>
+                    Description&nbsp;&nbsp;: {selectedItemDetails.description}
+                  </div>
+                </DetailsBox>
+              )}
             </ResultItem>
           );
         })}

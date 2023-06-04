@@ -51,7 +51,6 @@ function Dashboard() {
             </div>
           </div>
           <div className="history-con">
-            <History />
             <h2 className="salary-title">
               Min <span>Salary</span>Max
             </h2>
@@ -75,12 +74,29 @@ function Dashboard() {
               </p>
             </div>
           </div>
+          <Goal>
+            <h2>Your Goal</h2>
+            <p>{dollar} 2000</p>
+          </Goal>
         </div>
       </InnerLayout>
     </DashboardStyled>
   );
 }
 
+const Goal = styled.div`
+  grid-column: 4 / -1;
+  background: #fcf6f9;
+  border: 2px solid #ffffff;
+  box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  margin-top: -140px;
+  padding: 1rem;
+  p {
+    font-size: 3.5rem;
+    font-weight: 700;
+  }
+`;
 const DashboardStyled = styled.div`
   .stats-con {
     display: grid;

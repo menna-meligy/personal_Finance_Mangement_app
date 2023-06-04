@@ -11,7 +11,7 @@ function History() {
     <HistoryStyled>
       <h2>Recent History</h2>
       {history.map((item) => {
-        const { _id, title, amount, type } = item;
+        const { _id, title, amount, type, market_Name } = item;
         return (
           <div key={_id} className="history-item">
             <p
@@ -19,7 +19,7 @@ function History() {
                 color: type === "expense" ? "red" : "var(--color-green)",
               }}
             >
-              {title}
+              {title || market_Name}
             </p>
 
             <p

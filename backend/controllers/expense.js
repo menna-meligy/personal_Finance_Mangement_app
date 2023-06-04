@@ -1,18 +1,11 @@
 const ExpenseSchema = require("../models/ExpenseModel");
 
 exports.addExpense = async (req, res) => {
-  const {
-    market_Name,
-    item_id,
-    amount,
-    item_name,
-    category,
-    description,
-    date,
-  } = req.body;
+  const { title, item_id, amount, item_name, category, description, date } =
+    req.body;
 
   const income = ExpenseSchema({
-    market_Name,
+    title,
     item_id,
     category,
     amount,
@@ -24,7 +17,7 @@ exports.addExpense = async (req, res) => {
   try {
     //validations
     if (
-      !market_Name ||
+      !title ||
       !item_id ||
       !amount ||
       !item_name ||

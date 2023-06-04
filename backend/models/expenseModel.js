@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ExpenseSchema = new mongoose.Schema(
   {
-    market_Name: {
+    title: {
       type: String,
       required: true,
       trim: true,

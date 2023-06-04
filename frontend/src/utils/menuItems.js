@@ -33,7 +33,7 @@ export const menuItems = [
   {
     id: 6,
     title: "Shopping",
-    icon: dashboard,
+    icon: trend,
     link: "/Suggestions",
   },
 ];
